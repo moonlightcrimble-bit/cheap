@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHEAP</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0d0d0d;
+    color: #c8c8c8;
+    font-family: 'Share Tech Mono', 'Courier New', monospace;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  nav {
+    padding: 18px 28px;
+    display: flex;
+    gap: 28px;
+    font-size: 13px;
+    color: #888;
+    letter-spacing: 0.03em;
+  }
+
+  nav span {
+    cursor: default;
+    user-select: none;
+  }
+
+  .hero {
+    padding: 60px 40px 50px 40px;
+  }
+
+  .title-wrap {
+    margin-bottom: 60px;
+  }
+
+  /* Divider */
+  .divider {
+    border: none;
+    border-top: 1px solid #2a2a2a;
+    margin: 0 40px 40px 40px;
+  }
+
+  /* Contract section */
+  .contract-section {
+    padding: 0 40px;
+  }
+
+  .contract-label {
+    font-size: 12px;
+    color: #555;
+    margin-bottom: 10px;
+    letter-spacing: 0.05em;
+  }
+
+  .contract-row {
+    display: flex;
+    align-items: center;
+    max-width: 580px;
+  }
+
+  .contract-addr {
+    flex: 1;
+    background: #1a1a1a;
+    border: 1px solid #2e2e2e;
+    border-right: none;
+    padding: 11px 16px;
+    font-family: 'Share Tech Mono', 'Courier New', monospace;
+    font-size: 13px;
+    color: #c8c8c8;
+    letter-spacing: 0.02em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    border-radius: 4px 0 0 4px;
+    user-select: all;
+  }
+
+  .copy-btn {
+    background: #1a1a1a;
+    border: 1px solid #2e2e2e;
+    border-left: 1px solid #3a3a3a;
+    padding: 11px 18px;
+    font-family: 'Share Tech Mono', 'Courier New', monospace;
+    font-size: 12px;
+    color: #888;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+    white-space: nowrap;
+    transition: color 0.15s, background 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .copy-btn:hover {
+    background: #222;
+    color: #c8c8c8;
+  }
+
+  .copy-btn.copied {
+    color: #7dff8a;
+  }
+
+  .copy-icon {
+    width: 13px;
+    height: 13px;
+    opacity: 0.7;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span>[home]</span>
+  <span>[who?]</span>
+  <span>[roadmap lmao]</span>
+  <span>[whitepaper nah]</span>
+</nav>
+
+<div class="hero">
+  <div class="title-wrap">
+    <canvas id="titleCanvas" width="700" height="120"></canvas>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="contract-section">
+  <div class="contract-label">// contract address</div>
+  <div class="contract-row">
+    <div class="contract-addr" id="addrText">EyppY3WSBak9gMXHhaFcozoNZTFLGMjNXoRB727Ypump</div>
+    <button class="copy-btn" id="copyBtn" onclick="copyAddr()">
+      <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2 2v1"></path>
+      </svg>
+      copy
+    </button>
+  </div>
+</div>
+
+<script>
+  const canvas = document.getElementById('titleCanvas');
+  const ctx = canvas.getContext('2d');
+
+  const FONT = {
+    C: [
+      [0,1,1,1,0],
+      [1,0,0,0,1],
+      [1,0,0,0,0],
+      [1,0,0,0,0],
+      [1,0,0,0,0],
+      [1,0,0,0,1],
+      [0,1,1,1,0],
+    ],
+    H: [
+      [1,0,0,0,1],
+      [1,0,0,0,1],
+      [1,0,0,0,1],
+      [1,1,1,1,1],
+      [1,0,0,0,1],
+      [1,0,0,0,1],
+      [1,0,0,0,1],
+    ],
+    E: [
+      [1,1,1,1,1],
+      [1,0,0,0,0],
+      [1,0,0,0,0],
+      [1,1,1,1,0],
+      [1,0,0,0,0],
+      [1,0,0,0,0],
+      [1,1,1,1,1],
+    ],
+    A: [
+      [0,1,1,1,0],
+      [1,0,0,0,1],
+      [1,0,0,0,1],
+      [1,1,1,1,1],
+      [1,0,0,0,1],
+      [1,0,0,0,1],
+      [1,0,0,0,1],
+    ],
+    P: [
+      [1,1,1,1,0],
+      [1,0,0,0,1],
+      [1,0,0,0,1],
+      [1,1,1,1,0],
+      [1,0,0,0,0],
+      [1,0,0,0,0],
+      [1,0,0,0,0],
+    ],
+  };
+
+  const CELL = 14;
+  const GAP = 2;
+  const LPAD = 18;
+
+  const letters = ['C','H','E','A','P'];
+  const colors = ['#c8c8c8', '#b0b0b0', '#a0a0a0', '#c0c0c0', '#c8c8c8'];
+
+  let xOff = 10;
+  const yOff = 10;
+
+  letters.forEach((ch, li) => {
+    const grid = FONT[ch];
+    const color = colors[li];
+    grid.forEach((row, r) => {
+      row.forEach((on, c) => {
+        if (on) {
+          const x = xOff + c * (CELL + GAP);
+          const y = yOff + r * (CELL + GAP);
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 1.2;
+          ctx.strokeRect(x + 0.5, y + 0.5, CELL - 1, CELL - 1);
+        }
+      });
+    });
+    xOff += 5 * (CELL + GAP) + LPAD;
+  });
+
+  function copyAddr() {
+    const addr = document.getElementById('addrText').textContent;
+    navigator.clipboard.writeText(addr).then(() => {
+      const btn = document.getElementById('copyBtn');
+      btn.classList.add('copied');
+      btn.innerHTML = `
+        <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg> copied!`;
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = `
+          <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2 2v1"></path>
+          </svg> copy`;
+      }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>
